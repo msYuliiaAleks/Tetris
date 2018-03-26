@@ -3,7 +3,12 @@
 #include <hgegui.h>
 #include <hgefont.h>
 #include "menuitem.h"
+#include "Tetris V1.0/tetrisItem.h"
 #include <math.h>
+#include "Tetris V1.0/tetrisIcon.h"
+#include <vector>
+
+typedef std::vector< std::vector< int > > Matrix;
 
 #define NEWGAME 1
 #define CONTINUE 2
@@ -14,11 +19,12 @@
 #define	MUSICOFF 7
 #define	PAUSE 8
 
-// Pointer to the HGE interface.
-// Helper classes require this to work.
+
 HGE *hge=0;
 
-// Some resource handles
+hgeSprite* sprItem; 
+HTEXTURE texItem;
+
 HEFFECT				snd;
 HEFFECT				sndMelody;
 HEFFECT				sndEmpty;
@@ -26,7 +32,6 @@ HTEXTURE			tex;
 
 hgeQuad				quad;
 
-// Pointers to the HGE objects we will use
 hgeGUI				*gui;
 hgeFont				*fnt;
 hgeSprite			*spr;
@@ -40,13 +45,44 @@ hgeGUIMenuItem *menuMusicOn;
 hgeGUIMenuItem *menuBack;
 
 
+
+void CreateItem()
+{
+	texItem=hge->Texture_Load("grey.png");
+   sprItem=new hgeSprite(texItem,1,1,20,20); 
+   sprItem->SetColor(0xDDDDDDDD);
+   sprItem->SetHotSpot(1,1);
+	/*Matrix itemMatrix = {
+    { 1, 1 },
+	{ 1, 1 },};*/
+
+Matrix itemMatrix;
+for (int i = 0; i < 2; i++) 
+{
+   std::vector<int> row; // Create an empty row
+    for (int j = 0; j < 2; j++) 
+	{
+        row.push_back(1); // Add an element (column) to the row
+    }
+    itemMatrix.push_back(row); // Add the row to the main vector
+}
+
+TetrisItem *tetrisItem = new TetrisItem(1, 100, 100, itemMatrix, sprItem);
+tetrisItem->showItem();
+gui->AddCtrl(tetrisItem);
+//tetrisItem->RenderItem();
+
+
+}
+
 void MusicOn()
 {
 	snd = sndMelody;
-
-	gui->ShowCtrl(MUSICON,true);	
-	menuMusicOn->ShowItem();
 	gui->ShowCtrl(MUSICOFF,false);
+	gui->ShowCtrl(MUSICON,true);	
+	//menuMusicOn->ShowItem();
+	gui->Enter();
+
 
 }
 
@@ -55,6 +91,9 @@ void Music0ff()
 	snd = sndEmpty;
 	gui->ShowCtrl(MUSICON,false);
 	gui->ShowCtrl(MUSICOFF,true);
+	//menuMusicOff->ShowItem();
+	gui->Enter();
+
 }
 
 void MenuOptions()
@@ -64,16 +103,14 @@ void MenuOptions()
 	gui->ShowCtrl(OPTIONS,false);
 	gui->ShowCtrl(EXIT,false);
 
-	menuOptions->SetY(200);
-	gui->ShowCtrl(OPTIONS,true);
 	gui->AddCtrl(menuMusicOff);
 	gui->AddCtrl(menuMusicOn);
 	gui->AddCtrl(menuBack);
 
 	if(snd == sndEmpty)
 	{
-	gui->ShowCtrl(MUSICON,false);
-	gui->ShowCtrl(MUSICOFF,true);
+		gui->ShowCtrl(MUSICON,false);
+		gui->ShowCtrl(MUSICOFF,true);
 	}
 	else
 	{		
@@ -90,64 +127,77 @@ void MainMenu()
 	gui->ShowCtrl(MUSICON,false);
 	gui->ShowCtrl(MUSICOFF,false);
 	gui->ShowCtrl(BACK,false);
-	gui->ShowCtrl(OPTIONS,false);
-	menuOptions->SetY(280);
 	gui->ShowCtrl(NEWGAME,true);
 	gui->ShowCtrl(CONTINUE,true);
 	gui->ShowCtrl(OPTIONS,true);
 	gui->ShowCtrl(EXIT,true);
+	gui->Enter();
+
 }
 
+
+void CreateIcon()
+{
+	TetrisIcon *tetrisIcon =new TetrisIcon("qwe",20, 20);
+	tetrisIcon->textureLoad();
+	tetrisIcon->initSprite();
+}
+
+
+
+bool checkClicks(int id)
+{
+	static int lastid=0;
+	if(hge->Input_GetKeyState(HGEK_ESCAPE)) { lastid=3; gui->Leave(); }
+
+	if(id == -1)
+	{
+		switch(lastid)
+		{
+		case NEWGAME:
+			CreateIcon();
+			//TetrisPlay();
+			break;
+		case CONTINUE:
+			//Continue();
+			break;
+		case OPTIONS:
+			MenuOptions();
+			break;
+		case EXIT:
+			return true;
+		case MUSICON:
+			Music0ff();
+			break;
+		case MUSICOFF:
+			MusicOn();
+			break;
+		case BACK:
+			MainMenu();
+			break;
+		case PAUSE:
+			//Pause();
+			break;
+		}
+	}
+	else if(id) { lastid=id; gui->Leave(); }
+
+	return false;
+}
 bool FrameFunc()
 {
 	float dt=hge->Timer_GetDelta();
 	static float t=0.0f;
 	float tx,ty;
-	int id;
-	static int lastid=0;
 
-	// If ESCAPE was pressed, tell the GUI to finish
-	if(hge->Input_GetKeyState(HGEK_ESCAPE)) { lastid=3; gui->Leave(); }
+	checkClicks(gui->Update(dt));
+
 	
-	// We update the GUI and take an action if
-	// one of the menu items was selected
-	id=gui->Update(dt);
-	if(id == -1)
-	{
-		switch(lastid)
-		{
-			case NEWGAME:
-				//TetrisPlay();
-				break;
-			case CONTINUE:
-				//Continue();
-				break;
-			case OPTIONS:
-				MenuOptions();
-				break;
-			case EXIT:
-			 return true;
-			case MUSICON:
-				Music0ff();
-				break;
-			case MUSICOFF:
-				MusicOn();
-				break;
-			case BACK:
-				MainMenu();
-				break;
-			case PAUSE:
-				//Pause();
-				break;
-		}
-	}
-	else if(id) { lastid=id; gui->Leave(); }
 
-	// Here we update our background animation
+
 	t+=dt;
 	tx=50*cosf(t/60);
 	ty=50*sinf(t/60);
-
 	quad.v[0].tx=tx;        quad.v[0].ty=ty;
 	quad.v[1].tx=tx+800/64; quad.v[1].ty=ty;
 	quad.v[2].tx=tx+800/64; quad.v[2].ty=ty+600/64;

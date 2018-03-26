@@ -182,6 +182,22 @@
 				RelativePath="..\menuitem.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\readItem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tetrisBoard.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tetrisIcon.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tetrisItem.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -189,11 +205,23 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Board.h"
+				RelativePath="..\menuitem.h"
 				>
 			</File>
 			<File
-				RelativePath="..\menuitem.h"
+				RelativePath=".\readItem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tetrisBoard.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tetrisIcon.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tetrisItem.h"
 				>
 			</File>
 		</Filter>
