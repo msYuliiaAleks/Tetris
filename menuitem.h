@@ -27,10 +27,10 @@ class hgeGUIMenuItem : public hgeGUIObject
 		virtual void  Render();
 		virtual void  Update(float dt);
 
-		virtual float GetX();
-		virtual float GetY();
-		virtual void SetX(float x);
-		virtual void SetY(float y);
+		//virtual float GetX();
+		//virtual float GetY();
+		//virtual void SetX(float x);
+		//virtual void SetY(float y);
 
 
 		virtual void  Enter();

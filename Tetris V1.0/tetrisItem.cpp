@@ -2,8 +2,6 @@
 #include "tetrisItem.h"
 #include<hge.h>
 #include<hgegui.h>
-typedef std::vector< std::vector< int > > Matrix;
-
 
 TetrisItem::TetrisItem(int _id, float _x, float _y, Matrix _item, hgeSprite* _spr)
 {

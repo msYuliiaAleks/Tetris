@@ -4,8 +4,11 @@
 #include <hgecolor.h>
 #include<hgerect.h>
 #include <vector>
+#include "tetrisIcon.h"
 
-typedef std::vector< std::vector< int > > Matrix;
+#include "tetrisBoard.h"
+
+
 
 class TetrisItem: public hgeGUIObject
 {

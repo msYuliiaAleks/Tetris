@@ -6,19 +6,20 @@
 #include "Tetris V1.0/tetrisItem.h"
 #include <math.h>
 #include "Tetris V1.0/tetrisIcon.h"
+#include "Tetris V1.0/tetrisBoard.h"
 #include <vector>
 
-typedef std::vector< std::vector< int > > Matrix;
+//typedef std::vector< std::vector< int > > Matrix;
 
-#define NEWGAME 1
-#define CONTINUE 2
-#define OPTIONS 3
-#define EXIT 4
-#define BACK 5
-#define	MUSICON 6
-#define	MUSICOFF 7
-#define	PAUSE 8
-
+enum{ NEWGAME =1,
+CONTINUE= 2,
+OPTIONS =3,
+EXIT =4,
+BACK =5,
+MUSICON =6,
+MUSICOFF =7,
+PAUSE =8
+};
 
 HGE *hge=0;
 
@@ -44,59 +45,54 @@ hgeGUIMenuItem *menuMusicOff;
 hgeGUIMenuItem *menuMusicOn;
 hgeGUIMenuItem *menuBack;
 
+//void CreateItem()
+//{
+//	texItem=hge->Texture_Load("grey.png");
+//   sprItem=new hgeSprite(texItem,1,1,20,20); 
+//   sprItem->SetColor(0xDDDDDDDD);
+//   sprItem->SetHotSpot(1,1);
+//	/*Matrix itemMatrix = {
+//    { 1, 1 },
+//	{ 1, 1 },};*/
+//
+//Matrix itemMatrix;
+//for (int i = 0; i < 2; i++) 
+//{
+//   std::vector<int> row; // Create an empty row
+//    for (int j = 0; j < 2; j++) 
+//	{
+//        row.push_back(1); // Add an element (column) to the row
+//    }
+//    itemMatrix.push_back(row); // Add the row to the main vector
+//}
+//
+//TetrisItem *tetrisItem = new TetrisItem(1, 100, 100, itemMatrix, sprItem);
+//tetrisItem->showItem();
+//gui->AddCtrl(tetrisItem);
+////tetrisItem->RenderItem();
+//
+//
+//}
+void exit(){}
 
-
-void CreateItem()
-{
-	texItem=hge->Texture_Load("grey.png");
-   sprItem=new hgeSprite(texItem,1,1,20,20); 
-   sprItem->SetColor(0xDDDDDDDD);
-   sprItem->SetHotSpot(1,1);
-	/*Matrix itemMatrix = {
-    { 1, 1 },
-	{ 1, 1 },};*/
-
-Matrix itemMatrix;
-for (int i = 0; i < 2; i++) 
-{
-   std::vector<int> row; // Create an empty row
-    for (int j = 0; j < 2; j++) 
-	{
-        row.push_back(1); // Add an element (column) to the row
-    }
-    itemMatrix.push_back(row); // Add the row to the main vector
-}
-
-TetrisItem *tetrisItem = new TetrisItem(1, 100, 100, itemMatrix, sprItem);
-tetrisItem->showItem();
-gui->AddCtrl(tetrisItem);
-//tetrisItem->RenderItem();
-
-
-}
-
-void MusicOn()
+void musicOn()
 {
 	snd = sndMelody;
 	gui->ShowCtrl(MUSICOFF,false);
 	gui->ShowCtrl(MUSICON,true);	
-	//menuMusicOn->ShowItem();
 	gui->Enter();
-
-
 }
 
-void Music0ff()
+void music0ff()
 {
 	snd = sndEmpty;
 	gui->ShowCtrl(MUSICON,false);
 	gui->ShowCtrl(MUSICOFF,true);
-	//menuMusicOff->ShowItem();
 	gui->Enter();
 
 }
 
-void MenuOptions()
+void menuOption()
 {
 	gui->ShowCtrl(NEWGAME,false);
 	gui->ShowCtrl(CONTINUE,false);
@@ -122,7 +118,7 @@ void MenuOptions()
 	gui->Enter();
 }
 
-void MainMenu()
+void mainMenu()
 {	
 	gui->ShowCtrl(MUSICON,false);
 	gui->ShowCtrl(MUSICOFF,false);
@@ -136,15 +132,27 @@ void MainMenu()
 }
 
 
-void CreateIcon()
+
+
+void createBoard()
 {
-	TetrisIcon *tetrisIcon =new TetrisIcon("qwe",20, 20);
-	tetrisIcon->textureLoad();
-	tetrisIcon->initSprite();
+	gui->ShowCtrl(NEWGAME,false);
+	gui->ShowCtrl(CONTINUE,false);
+	gui->ShowCtrl(OPTIONS,false);
+	gui->ShowCtrl(EXIT,false);
+
+TetrisBoard *tetrisBoard = new TetrisBoard(1,270,50);
+tetrisBoard->gui = gui;
+tetrisBoard->createBoard();
+gui->Enter();
+
+/*
+	TetrisIcon *tetrisIcon =new TetrisIcon();
+	tetrisIcon->createIcon(100,100);
+gui->AddCtrl(tetrisIcon);
+gui->Enter();*/
+
 }
-
-
-
 bool checkClicks(int id)
 {
 	static int lastid=0;
@@ -155,30 +163,33 @@ bool checkClicks(int id)
 		switch(lastid)
 		{
 		case NEWGAME:
-			CreateIcon();
+			createBoard();
 			//TetrisPlay();
 			break;
 		case CONTINUE:
 			//Continue();
 			break;
 		case OPTIONS:
-			MenuOptions();
+			menuOption();
 			break;
 		case EXIT:
+			exit();
 			return true;
 		case MUSICON:
-			Music0ff();
+			music0ff();
 			break;
 		case MUSICOFF:
-			MusicOn();
+			musicOn();
 			break;
 		case BACK:
-			MainMenu();
+			mainMenu();
 			break;
 		case PAUSE:
 			//Pause();
 			break;
 		}
+
+		lastid = 0;
 	}
 	else if(id) { lastid=id; gui->Leave(); }
 

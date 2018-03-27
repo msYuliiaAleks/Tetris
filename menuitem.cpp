@@ -37,14 +37,14 @@ float w=fnt->GetStringWidth(title);
 }
 
 
-float hgeGUIMenuItem::GetX(){return xR;};
-float hgeGUIMenuItem::GetY(){return yR;};
-void hgeGUIMenuItem::SetX(float x){xR=x;
-	RectSet(xR,yR);
-};
-void hgeGUIMenuItem::SetY(float y){yR=y;
-	RectSet(xR,yR);
-};
+//float hgeGUIMenuItem::GetX(){return xR;};
+//float hgeGUIMenuItem::GetY(){return yR;};
+//void hgeGUIMenuItem::SetX(float x){xR=x;
+//	RectSet(xR,yR);
+//};
+//void hgeGUIMenuItem::SetY(float y){yR=y;
+//	RectSet(xR,yR);
+//};
 
 
 void hgeGUIMenuItem::Render()

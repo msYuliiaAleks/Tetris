@@ -6,22 +6,21 @@
 #include <hgecolor.h>
 #include <hgerect.h>
 #include <vector>
+#pragma once
+typedef std::vector< std::vector< TetrisIcon* > > Matrix;
 
-typedef std::vector< std::vector< int > > Matrix;
 
 class TetrisBoard: public hgeGUIObject
 {
 public:
-	/*TetrisBoard(int id, float x, float y, Matrix board );
-	float GetX();
-	float GetY();
-	void SetX(float x);
-	void SetY(float y);
-	Matrix board;
-	float xI;
-	float yI;
+	TetrisBoard(int id, float x, float y);//, Matrix board );
+
+	Matrix _board;
+	float _start_pos_x;
+	float _start_pos_y;
+
 
 	virtual void  Render();
-	void  RenderBoard();*/
-
+	void  createBoard();
+void createMargin(int x,int y);
 };
