@@ -13,6 +13,10 @@ TetrisBoard::TetrisBoard(int _id, float x, float y)//, Matrix board)
 
 void  TetrisBoard::Render(){};
 
+#define BOARD "board.png"
+#define	MARGIN "margin.png"
+
+
 void TetrisBoard::createBoard()
 {
 	
@@ -22,9 +26,9 @@ void TetrisBoard::createBoard()
 		for (int x = 0; x < 10; x++) 
 		{
 			createMargin(x,y);
-
 			TetrisIcon *tetrisIcon = new TetrisIcon();
-			tetrisIcon->createIcon(_start_pos_x, _start_pos_y, x, y);
+			tetrisIcon->createIcon(BOARD,_start_pos_x, _start_pos_y, x, y);
+			tetrisIcon->crystalColor();
 			this->gui->AddCtrl(tetrisIcon);
 			row.push_back(tetrisIcon); 
 		}
@@ -37,38 +41,38 @@ void TetrisBoard::createMargin(int x,int y)
 	if(x==0)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIconMargin(_start_pos_x-25, _start_pos_y, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x-25, _start_pos_y, x, y);
 		this->gui->AddCtrl(tetrisIcon);
 	}
 	if(x==9)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIconMargin(_start_pos_x+25, _start_pos_y, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x+25, _start_pos_y, x, y);
 		this->gui->AddCtrl(tetrisIcon);
 	}
 	if(y==0)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIconMargin(_start_pos_x, _start_pos_y-25, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x, _start_pos_y-25, x, y);
 		this->gui->AddCtrl(tetrisIcon);
 
 	}
 	if(y==19)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIconMargin(_start_pos_x, _start_pos_y+25, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x, _start_pos_y+25, x, y);
 		this->gui->AddCtrl(tetrisIcon);
 	}
 	if(x==0&&y==0)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIconMargin(_start_pos_x-25, _start_pos_y-25, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x-25, _start_pos_y-25, x, y);
 		this->gui->AddCtrl(tetrisIcon);
 	}
 	if(x==9&&y==19)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIconMargin(_start_pos_x+25, _start_pos_y+25, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x+25, _start_pos_y+25, x, y);
 		this->gui->AddCtrl(tetrisIcon);
 
 	}
@@ -76,13 +80,13 @@ void TetrisBoard::createMargin(int x,int y)
 	if(x==0&&y==19)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIconMargin(_start_pos_x-25, _start_pos_y+25, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x-25, _start_pos_y+25, x, y);
 		this->gui->AddCtrl(tetrisIcon);
 	}
 	if(x==9&&y==0)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIconMargin(_start_pos_x+25, _start_pos_y-25, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x+25, _start_pos_y-25, x, y);
 		this->gui->AddCtrl(tetrisIcon);
 	}
 

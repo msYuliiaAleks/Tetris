@@ -2,26 +2,43 @@
 #include "tetrisItem.h"
 #include<hge.h>
 #include<hgegui.h>
+#include "readItem.h"
 
-TetrisItem::TetrisItem(int _id, float _x, float _y, Matrix _item, hgeSprite* _spr)
+#define RED "red.png"
+#define	BLUE "blue.png"
+#define	GREEN "green.png"
+//
+TetrisItem::TetrisItem(int _id, float x, float y)//, Matrix board)
 {
 	id=_id;
-	xI=_x;
-	yI=_y;
-	item =_item;
-	spr =_spr;
+	_start_pos_x=x;
+	_start_pos_y=y;
 }
 
+void  TetrisItem::Render(){};
 
-void TetrisItem::showItem()
+//
+//
+void TetrisItem::createItem()
 {
-	rect.Set(xI, yI, xI, yI);
-}
-void TetrisItem::clear()
-{
+	ReadItem *read = new ReadItem();
+	read->ReadFile();
+	MatrixInt item=	read->ArrMatrixEl[0];
 
-}
-void TetrisItem::Render()
-{
-	spr->Render(yI,xI);
+	for (int y = 0; y < (item.size()); y++) 
+	{
+		std::vector<TetrisIcon*> row; 
+		for (int x = 0; x <3; x++) 
+		{
+			if((item[y][x])==1){
+			TetrisIcon *tetrisIcon = new TetrisIcon();
+			tetrisIcon->createIcon(RED,_start_pos_x, _start_pos_y, x, y);
+			this->gui->AddCtrl(tetrisIcon);
+			row.push_back(tetrisIcon); 
+			}
+		}
+		_item.push_back(row); 
+		
+	}
+
 }

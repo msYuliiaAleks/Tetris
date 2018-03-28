@@ -13,23 +13,14 @@
 class TetrisItem: public hgeGUIObject
 {
 	public:
-		enum 
-		{
-			TYPE_UNKOWN = 0,
-			TYPE_GREY = 1,
-			TYPE_RED = 2
-		};
-		TetrisItem(int id, float x, float y, Matrix item, hgeSprite* spr);
-		//~TetrisItem();
+//		
+//		//~TetrisItem();
+		TetrisItem(int id, float x, float y);
 
-		void showItem();
-		void clear();
-
+		Matrix _item;
+		float _start_pos_x;
+		float _start_pos_y;
 		virtual void  Render();
-
-	private:
-		Matrix item;
-		float xI;
-		float yI;
-		hgeSprite* spr;
+		void  createItem();
+//		void clear();
 };

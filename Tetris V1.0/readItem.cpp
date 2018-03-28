@@ -1,30 +1,45 @@
-#include "readItem.h"
 #include <fstream>
 #include <iostream>
 #include  <string>
+#include <cstdlib>
+#include <vector>
+#include "readItem.h"
 using namespace std;
-/*
-ReadItem:: ReadItem(char _lineSize, char _fileName)( ){
-	lineSize=_lineSize;
-	fileName=_fileName;
+
+//ReadItem:: ReadItem(char lineSize, char fileName){
+//	_lineSize=lineSize;
+//	_fileName=fileName;
+//}
+ReadItem:: ~ReadItem(){}
+ReadItem:: ReadItem(){
+	_fileName="file.txt";
 }
-
-
-void OpenFile()
+void ReadItem::ReadFile()
 {
-	ifstream in(filename);
+	ifstream in(_fileName);
 	if(!in.is_open())
 	{
 		cout<< "Error opening file for read\n";
-		return  EXIT_FAILURE;
 	}
-}
-void ReadFile()
-{
-	while (in)
-	{
-		in.getline(line, 80);
-		cout<< line <<endl ;
+
+	while (in) 
+	{	
+		in.getline(_line, 80);
+
+		if(_line[0]!=' ')
+		{
+			std::vector<int> row; 
+			for(unsigned int i=0;i<strlen(_line);++i)
+			{
+				row.push_back(_line[i] - '0'); 
+			}
+			_matrixInt.push_back(row);
+		}
+		if(_line[0]==' ')
+		{
+			ArrMatrixEl.push_back(_matrixInt);
+			_matrixInt.clear();		
+		}
 	}
 	in.close();
-}*/
+}

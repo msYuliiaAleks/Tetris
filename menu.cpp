@@ -45,34 +45,7 @@ hgeGUIMenuItem *menuMusicOff;
 hgeGUIMenuItem *menuMusicOn;
 hgeGUIMenuItem *menuBack;
 
-//void CreateItem()
-//{
-//	texItem=hge->Texture_Load("grey.png");
-//   sprItem=new hgeSprite(texItem,1,1,20,20); 
-//   sprItem->SetColor(0xDDDDDDDD);
-//   sprItem->SetHotSpot(1,1);
-//	/*Matrix itemMatrix = {
-//    { 1, 1 },
-//	{ 1, 1 },};*/
-//
-//Matrix itemMatrix;
-//for (int i = 0; i < 2; i++) 
-//{
-//   std::vector<int> row; // Create an empty row
-//    for (int j = 0; j < 2; j++) 
-//	{
-//        row.push_back(1); // Add an element (column) to the row
-//    }
-//    itemMatrix.push_back(row); // Add the row to the main vector
-//}
-//
-//TetrisItem *tetrisItem = new TetrisItem(1, 100, 100, itemMatrix, sprItem);
-//tetrisItem->showItem();
-//gui->AddCtrl(tetrisItem);
-////tetrisItem->RenderItem();
-//
-//
-//}
+
 void exit(){}
 
 void musicOn()
@@ -113,8 +86,7 @@ void menuOption()
 	gui->ShowCtrl(MUSICON,true);
 	gui->ShowCtrl(MUSICOFF,false);
 	}
-	gui->SetNavMode(HGEGUI_UPDOWN | HGEGUI_CYCLED);
-	gui->SetCursor(spr);
+
 	gui->Enter();
 }
 
@@ -127,6 +99,7 @@ void mainMenu()
 	gui->ShowCtrl(CONTINUE,true);
 	gui->ShowCtrl(OPTIONS,true);
 	gui->ShowCtrl(EXIT,true);
+	gui->SetNavMode(HGEGUI_UPDOWN | HGEGUI_CYCLED);
 	gui->Enter();
 
 }
@@ -144,15 +117,23 @@ void createBoard()
 TetrisBoard *tetrisBoard = new TetrisBoard(1,270,50);
 tetrisBoard->gui = gui;
 tetrisBoard->createBoard();
+gui->SetNavMode(HGEGUI_UPDOWN | HGEGUI_CYCLED);
 gui->Enter();
 
-/*
-	TetrisIcon *tetrisIcon =new TetrisIcon();
-	tetrisIcon->createIcon(100,100);
-gui->AddCtrl(tetrisIcon);
-gui->Enter();*/
 
 }
+
+void CreateItem()
+{
+	TetrisItem *tetrisItem = new TetrisItem(1,270,50);
+	tetrisItem->gui = gui;
+	tetrisItem->createItem();
+	gui->Enter();
+}
+
+
+
+
 bool checkClicks(int id)
 {
 	static int lastid=0;
@@ -164,6 +145,7 @@ bool checkClicks(int id)
 		{
 		case NEWGAME:
 			createBoard();
+			CreateItem();
 			//TetrisPlay();
 			break;
 		case CONTINUE:
@@ -202,10 +184,6 @@ bool FrameFunc()
 	float tx,ty;
 
 	checkClicks(gui->Update(dt));
-
-	
-
-
 	t+=dt;
 	tx=50*cosf(t/60);
 	ty=50*sinf(t/60);
@@ -292,6 +270,8 @@ void CreationMenu()
 		gui->SetCursor(spr);
 		gui->SetFocus(1);
 		gui->Enter();
+
+
 		// Let's rock now!
 		hge->System_Start();
 		// Delete created objects and free loaded resources

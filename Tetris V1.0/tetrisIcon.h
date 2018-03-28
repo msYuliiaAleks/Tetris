@@ -19,12 +19,11 @@ private:
 public:
 	TetrisIcon(char* name);
 	TetrisIcon(void);
-
+	void TetrisIcon::crystalColor();
 	void textureLoad();
 	void initSprite();
 	virtual void Render();
-	void createIcon(float start_pos_x, float start_pos_y, int x, int y);
-	void createIconMargin (float start_pos_x, float start_pos_y, int x, int y);
+	void createIcon(char* name,float start_pos_x, float start_pos_y, int x, int y);
 
 };
 

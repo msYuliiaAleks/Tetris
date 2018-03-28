@@ -13,6 +13,7 @@ typedef std::vector< std::vector< TetrisIcon* > > Matrix;
 class TetrisBoard: public hgeGUIObject
 {
 public:
+	//static std::string BOARD;
 	TetrisBoard(int id, float x, float y);//, Matrix board );
 
 	Matrix _board;
@@ -22,5 +23,5 @@ public:
 
 	virtual void  Render();
 	void  createBoard();
-void createMargin(int x,int y);
+	void createMargin(int x,int y);
 };
