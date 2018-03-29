@@ -1,13 +1,8 @@
-﻿
-#include <hge.h>
-#include <hgegui.h>
-#include <hgefont.h>
-#include "menuitem.h"
-#include "Tetris V1.0/tetrisItem.h"
-#include <math.h>
+﻿#include "stdafx.h"
+#include "Tetris V1.0/menuitem.h"
+#include "Tetris V1.0/tetrisElement.h"
 #include "Tetris V1.0/tetrisIcon.h"
 #include "Tetris V1.0/tetrisBoard.h"
-#include <vector>
 
 //typedef std::vector< std::vector< int > > Matrix;
 
@@ -20,6 +15,8 @@ MUSICON =6,
 MUSICOFF =7,
 PAUSE =8
 };
+const float speed=0.00003f;
+float fpos=0; //лічильник руху актиної фігурки
 
 HGE *hge=0;
 
@@ -104,9 +101,7 @@ void mainMenu()
 
 }
 
-
-
-
+TetrisBoard *tetrisBoard = new TetrisBoard();
 void createBoard()
 {
 	gui->ShowCtrl(NEWGAME,false);
@@ -114,24 +109,28 @@ void createBoard()
 	gui->ShowCtrl(OPTIONS,false);
 	gui->ShowCtrl(EXIT,false);
 
-TetrisBoard *tetrisBoard = new TetrisBoard(1,270,50);
+
 tetrisBoard->gui = gui;
 tetrisBoard->createBoard();
 gui->SetNavMode(HGEGUI_UPDOWN | HGEGUI_CYCLED);
 gui->Enter();
+tetrisBoard->createElement();
+gui->Enter();
 
 
 }
-
-void CreateItem()
-{
-	TetrisItem *tetrisItem = new TetrisItem(1,270,50);
-	tetrisItem->gui = gui;
-	tetrisItem->createItem();
-	gui->Enter();
-}
-
-
+//TetrisElement *tetrisElement = new TetrisElement(1,270,50);
+//
+//void CreateElement()
+//{
+//	tetrisElement->gui = gui;
+//	tetrisElement->createElement();
+//	//gui->Enter();
+//	
+//	gui->Enter();
+//}
+//
+//
 
 
 bool checkClicks(int id)
@@ -145,7 +144,7 @@ bool checkClicks(int id)
 		{
 		case NEWGAME:
 			createBoard();
-			CreateItem();
+			//CreateElement();
 			//TetrisPlay();
 			break;
 		case CONTINUE:
@@ -182,6 +181,17 @@ bool FrameFunc()
 	float dt=hge->Timer_GetDelta();
 	static float t=0.0f;
 	float tx,ty;
+
+ fpos+=speed/hge->Timer_GetDelta();
+ if(fpos>1)
+ {
+	if (hge->Input_GetKeyState(HGEK_ESCAPE)) return true;
+	/*if (hge->Input_GetKeyState(HGEK_UP));*/
+	if (hge->Input_GetKeyState(HGEK_LEFT)){tetrisBoard->toLeft();};
+	if (hge->Input_GetKeyState(HGEK_DOWN)){tetrisBoard->toDown();};
+	if (hge->Input_GetKeyState(HGEK_RIGHT)){tetrisBoard->toRight();};
+	fpos=0;
+ }
 
 	checkClicks(gui->Update(dt));
 	t+=dt;

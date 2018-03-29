@@ -1,19 +1,4 @@
-/*
-** Haaf's Game Engine 1.5
-** Copyright (C) 2003-2005, Relish Games
-** hge.relishgames.com
-**
-**  Creating menus
-*/
-
-// In menuitem.cpp/h we define the
-// behaviour of our custom GUI control
-
-#include<hge.h>
-#include<hgegui.h>
-#include <hgefont.h>
-#include <hgecolor.h>
-
+#pragma once
 
 class hgeGUIMenuItem : public hgeGUIObject
 {

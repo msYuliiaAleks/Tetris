@@ -1,11 +1,15 @@
-
-#include <hge.h>
-#include <hgegui.h>
-#include <hgefont.h>
+#include "stdafx.h"
 #include "tetrisIcon.h"
 
 TetrisIcon::TetrisIcon(void){}
+TetrisIcon::~TetrisIcon(void){}
 
+
+
+void TetrisIcon::setStarPosX(float start_pos_x)
+{
+	_start_pos_x=start_pos_x;
+};
 
 void TetrisIcon::textureLoad()
 {
@@ -13,11 +17,9 @@ void TetrisIcon::textureLoad()
 }
 void TetrisIcon::initSprite()
 {
-	int txt_w = hge->Texture_GetWidth(_texIcon);
-	int txt_h = hge->Texture_GetHeight(_texIcon);
-	_curr_pos_x = _start_pos_x + txt_w *_x;
-	_curr_pos_y = _start_pos_y + txt_h *_y;
-	_sprIcon = new hgeSprite(_texIcon, 0, 0,txt_w,txt_h); 
+	_txt_w = (float)hge->Texture_GetWidth(_texIcon);
+	_txt_h = (float)hge->Texture_GetHeight(_texIcon);
+	_sprIcon = new hgeSprite(_texIcon, 0.f, 0.f, _txt_w,_txt_h); 
 	_sprIcon->SetHotSpot(1,1);
 }
 void TetrisIcon::Render()
@@ -25,7 +27,7 @@ void TetrisIcon::Render()
 	_sprIcon->Render(_curr_pos_x,_curr_pos_y);
 }
 
-void TetrisIcon::createIcon(char* name,float start_pos_x, float start_pos_y, int x, int y)
+void TetrisIcon::createIcon(const char* name,float start_pos_x, float start_pos_y, int x, int y)
 {	
 	_name = name;
 	_start_pos_x=start_pos_x;
@@ -34,9 +36,13 @@ void TetrisIcon::createIcon(char* name,float start_pos_x, float start_pos_y, int
 	_y = y;
 	textureLoad();
 	initSprite();
-
+	recalculatePosition();
 }
-
+void TetrisIcon::recalculatePosition()
+{
+	_curr_pos_x = _start_pos_x + _txt_w *_x;
+	_curr_pos_y = _start_pos_y + _txt_h *_y;
+};
 void TetrisIcon::crystalColor()
 {
 	_sprIcon->SetColor(0xCCDDDDDD);
