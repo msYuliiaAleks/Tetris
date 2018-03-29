@@ -14,16 +14,19 @@ class TetrisElement: public hgeGUIObject
 		static const char* RED;
 		static const char* BLUE;
 		static const char* GREEN;
+		int _x;
+		int _y;
 
 		TetrisElement();
 		TetrisElement(int id, float x, float y);
 		//~TetrisElement();
 
-		std::vector<TetrisIcon*>& getIconList();
-
-		virtual void  Render();
+		int getHeightEl();
+		int getWidthtEl();
 		void  createElement();
 		void move(int diff_x, int diff_y);
+		void move();
 
+		virtual void  Render();
 //		void clear();
 };

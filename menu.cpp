@@ -186,7 +186,7 @@ bool FrameFunc()
  if(fpos>1)
  {
 	if (hge->Input_GetKeyState(HGEK_ESCAPE)) return true;
-	/*if (hge->Input_GetKeyState(HGEK_UP));*/
+	if (hge->Input_GetKeyState(HGEK_UP)){tetrisBoard->turn();};
 	if (hge->Input_GetKeyState(HGEK_LEFT)){tetrisBoard->toLeft();};
 	if (hge->Input_GetKeyState(HGEK_DOWN)){tetrisBoard->toDown();};
 	if (hge->Input_GetKeyState(HGEK_RIGHT)){tetrisBoard->toRight();};

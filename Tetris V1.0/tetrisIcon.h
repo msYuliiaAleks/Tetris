@@ -22,7 +22,7 @@ class TetrisIcon: public hgeGUIObject
 
 		void setStarPosX(float start_pos_x);
 
-		void recalculatePosition();
+		void recalculatePosition(int element_x = 0, int element_y = 0);
 		void crystalColor();
 		void textureLoad();
 		void initSprite();

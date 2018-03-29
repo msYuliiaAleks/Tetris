@@ -5,12 +5,10 @@ TetrisIcon::TetrisIcon(void){}
 TetrisIcon::~TetrisIcon(void){}
 
 
-
 void TetrisIcon::setStarPosX(float start_pos_x)
 {
 	_start_pos_x=start_pos_x;
-};
-
+}
 void TetrisIcon::textureLoad()
 {
 	_texIcon=hge->Texture_Load(_name);
@@ -26,7 +24,6 @@ void TetrisIcon::Render()
 {
 	_sprIcon->Render(_curr_pos_x,_curr_pos_y);
 }
-
 void TetrisIcon::createIcon(const char* name,float start_pos_x, float start_pos_y, int x, int y)
 {	
 	_name = name;
@@ -38,12 +35,12 @@ void TetrisIcon::createIcon(const char* name,float start_pos_x, float start_pos_
 	initSprite();
 	recalculatePosition();
 }
-void TetrisIcon::recalculatePosition()
+void TetrisIcon::recalculatePosition(int element_x, int element_y)
 {
-	_curr_pos_x = _start_pos_x + _txt_w *_x;
-	_curr_pos_y = _start_pos_y + _txt_h *_y;
-};
+	_curr_pos_x = _start_pos_x + _txt_w * (_x + element_x);
+	_curr_pos_y = _start_pos_y + _txt_h * (_y + element_y);
+}
 void TetrisIcon::crystalColor()
 {
 	_sprIcon->SetColor(0xCCDDDDDD);
-};
+}

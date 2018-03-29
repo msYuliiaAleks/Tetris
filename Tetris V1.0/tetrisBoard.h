@@ -16,8 +16,8 @@ public:
 	float _start_pos_y;
 	float txt_w ;
 	float txt_h ;
-	int height;
-	int width;
+	int _height;
+	int _width;
 	TetrisElement* currElement;
 	std::vector<TetrisIcon*> arrElements;
 	
@@ -27,6 +27,7 @@ public:
 	void toDown();
 	void toLeft();
 	void toRight();
+	void turn();
 	void createBoard();
 	void createMargin(int x,int y);
 	void createElement();

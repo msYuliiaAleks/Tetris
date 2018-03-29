@@ -12,22 +12,32 @@ TetrisElement::TetrisElement(int _id, float x, float y)//, Matrix board)
 	id=_id;
 	_start_pos_x=x;
 	_start_pos_y=y;
+	_x=0;
+	_y=0;
 }
 
 void  TetrisElement::Render(){};
-std::vector<TetrisIcon*>& TetrisElement::getIconList()
+
+int TetrisElement::getHeightEl()
 {
-	return _icon_list;
+	int temp=0;
+	for (UINT i = 0; i < _icon_list.size(); ++i) 
+	{
+		if(_icon_list[i]->_y>temp)
+			temp=_icon_list[i]->_y;
+	}
+	return temp+1;
 }
-
-void TetrisElement::getHeightEl()
+int TetrisElement::getWidthtEl()
 {
-
-};
-void TetrisElement::getWidthtEl()
-{
-
-};
+	int temp=0;
+	for (UINT i = 0; i < _icon_list.size(); ++i) 
+	{
+		if(_icon_list[i]->_x>temp)
+			temp=_icon_list[i]->_x;
+	}
+	return temp+1;
+}
 
 void TetrisElement::createElement()
 {
@@ -57,13 +67,26 @@ void TetrisElement::createElement()
 }
 void TetrisElement::move(int diff_x, int diff_y)
 {
+	_x += diff_x;
+	_y += diff_y;
+
 	for (UINT i = 0; i < _icon_list.size(); ++i) 
 	{
-		_icon_list[i]->_x += diff_x;
-		_icon_list[i]->_y += diff_y;
-		_icon_list[i]->recalculatePosition();
+		_icon_list[i]->recalculatePosition(_x, _y);
 	}
+
 }
+void TetrisElement::move()
+{
+	std::vector< TetrisIcon* > _temp_icon_list;
+
+	for (UINT i = 0; i < _icon_list.size(); ++i) 
+	{
+		//_icon_list[i]->recalculatePosition(_y, _x);
+	}
+
+}
+
 
 /*ReadElement *read = new ReadElement();
 read->ReadFile();

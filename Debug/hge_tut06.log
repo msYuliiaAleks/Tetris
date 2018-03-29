@@ -1,7 +1,7 @@
 HGE Started..
 
 HGE version: 1.60
-Date: 28.03.2018, 15:49:48
+Date: 29.03.2018, 19:52:08
 
 Application: Creating menus
 OS: Windows 6.2.9200
@@ -12,11 +12,8 @@ Description: AMD Radeon R7 250 Series
 Version: 22.19.677.257
 Mode: 800 x 600 x X8R8G8B8
 
-Sound Device: Наушники (Устройство с поддержкой High Definition Audio)
+Sound Device: Цифровое аудио (S/PDIF) (Устройство с поддержкой High Definition Audio)
 Sample rate: 44100
 
 Init done.
 
-
-Finishing..
-The End.

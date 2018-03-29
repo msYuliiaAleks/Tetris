@@ -46,7 +46,8 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="1"
+				PrecompiledHeaderThrough="stdafx.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -179,11 +180,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\menuitem.cpp"
+				RelativePath=".\menuitem.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\readItem.cpp"
+				RelativePath=".\readElement.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\stdafx.cpp"
 				>
 			</File>
 			<File
@@ -191,11 +196,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\tetrisIcon.cpp"
+				RelativePath=".\tetrisElement.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\tetrisItem.cpp"
+				RelativePath=".\tetrisIcon.cpp"
 				>
 			</File>
 		</Filter>
@@ -205,11 +210,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\menuitem.h"
+				RelativePath=".\menuitem.h"
 				>
 			</File>
 			<File
-				RelativePath=".\readItem.h"
+				RelativePath=".\readElement.h"
+				>
+			</File>
+			<File
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
@@ -217,11 +226,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\tetrisElement.h"
+				>
+			</File>
+			<File
 				RelativePath=".\tetrisIcon.h"
 				>
 			</File>
 			<File
-				RelativePath=".\tetrisItem.h"
+				RelativePath=".\utils.h"
 				>
 			</File>
 		</Filter>

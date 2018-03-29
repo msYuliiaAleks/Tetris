@@ -9,8 +9,8 @@ TetrisBoard::TetrisBoard()
 {
 	_start_pos_x=270;
 	_start_pos_y=50;
-	height=20;
-	width=10;
+	_height=20;
+	_width=10;
 	txt_w=25 ;
 	txt_h =25;
 
@@ -27,10 +27,10 @@ void TetrisBoard::createBoard()
 {
 
 
-	for (int y = 0; y < height; y++) 
+	for (int y = 0; y < _height; y++) 
 	{
 		std::vector<TetrisIcon*> row; 
-		for (int x = 0; x < width; x++) 
+		for (int x = 0; x < _width; x++) 
 		{
 			createMargin(x,y);
 			TetrisIcon *tetrisIcon = new TetrisIcon();
@@ -48,38 +48,38 @@ void TetrisBoard::createMargin(int x,int y)
 	if(x==0)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIcon(MARGIN,_start_pos_x-25, _start_pos_y, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x, _start_pos_y, x-1, y);
 		this->gui->AddCtrl(tetrisIcon);
 	}
 	if(x==9)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIcon(MARGIN,_start_pos_x+25, _start_pos_y, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x, _start_pos_y, x+1, y);
 		this->gui->AddCtrl(tetrisIcon);
 	}
 	if(y==0)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIcon(MARGIN,_start_pos_x, _start_pos_y-25, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x, _start_pos_y, x, y-1);
 		this->gui->AddCtrl(tetrisIcon);
 
 	}
 	if(y==19)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIcon(MARGIN,_start_pos_x, _start_pos_y+25, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x, _start_pos_y, x, y+1);
 		this->gui->AddCtrl(tetrisIcon);
 	}
 	if(x==0&&y==0)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIcon(MARGIN,_start_pos_x-25, _start_pos_y-25, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x, _start_pos_y, x-1, y-1);
 		this->gui->AddCtrl(tetrisIcon);
 	}
 	if(x==9&&y==19)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIcon(MARGIN,_start_pos_x+25, _start_pos_y+25, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x, _start_pos_y, x+1, y+1);
 		this->gui->AddCtrl(tetrisIcon);
 
 	}
@@ -87,13 +87,13 @@ void TetrisBoard::createMargin(int x,int y)
 	if(x==0&&y==19)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIcon(MARGIN,_start_pos_x-25, _start_pos_y+25, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x, _start_pos_y, x-1, y+1);
 		this->gui->AddCtrl(tetrisIcon);
 	}
 	if(x==9&&y==0)
 	{
 		TetrisIcon *tetrisIcon = new TetrisIcon();
-		tetrisIcon->createIcon(MARGIN,_start_pos_x+25, _start_pos_y-25, x, y);
+		tetrisIcon->createIcon(MARGIN,_start_pos_x, _start_pos_y, x+1, y-1);
 		this->gui->AddCtrl(tetrisIcon);
 	}
 
@@ -128,18 +128,27 @@ void TetrisBoard::toDown()
 	if (canMove(0, 1))
 		currElement->move(0, 1);
 }
+void TetrisBoard::turn()
+{
+	if (canMove(0, 1))
+	currElement->move();
+}
 bool TetrisBoard::canMove(int diff_x, int diff_y)
 {
 	if (!currElement)
 		return false;
 
-	std::vector<TetrisIcon*>& icons = currElement->getIconList();
-	for (UINT i = 0; i < icons.size(); ++i)
-	{
-		//check left border
-		if ((icons[i]->_x + diff_x) < 0)
-			return false;
-	}
+	//check left border
+	if ((currElement->_x + diff_x) < 0)
+		return false;
+
+	//check right border
+	if ((currElement->_x + diff_x) > (_width - currElement->getWidthtEl()))
+		return false;
+
+	//check down border
+	if ((currElement->_y + diff_y) > (_height - currElement->getHeightEl()))
+		return false;
 
 	return true;
 }
