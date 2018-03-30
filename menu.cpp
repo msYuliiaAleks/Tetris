@@ -15,9 +15,9 @@ MUSICON =6,
 MUSICOFF =7,
 PAUSE =8
 };
-const float speed=0.00003f;
+const float speed=0.5f;
 float fpos=0; //лічильник руху актиної фігурки
-
+float temp=0;
 HGE *hge=0;
 
 hgeSprite* sprItem; 
@@ -111,26 +111,13 @@ void createBoard()
 
 
 tetrisBoard->gui = gui;
+
 tetrisBoard->createBoard();
-gui->SetNavMode(HGEGUI_UPDOWN | HGEGUI_CYCLED);
-gui->Enter();
 tetrisBoard->createElement();
 gui->Enter();
 
 
 }
-//TetrisElement *tetrisElement = new TetrisElement(1,270,50);
-//
-//void CreateElement()
-//{
-//	tetrisElement->gui = gui;
-//	tetrisElement->createElement();
-//	//gui->Enter();
-//	
-//	gui->Enter();
-//}
-//
-//
 
 
 bool checkClicks(int id)
@@ -182,16 +169,20 @@ bool FrameFunc()
 	static float t=0.0f;
 	float tx,ty;
 
- fpos+=speed/hge->Timer_GetDelta();
- if(fpos>1)
- {
+	temp+=hge->Timer_GetDelta();
+
+if(temp>speed)
+{
+	tetrisBoard->toDown();
+
 	if (hge->Input_GetKeyState(HGEK_ESCAPE)) return true;
 	if (hge->Input_GetKeyState(HGEK_UP)){tetrisBoard->turn();};
 	if (hge->Input_GetKeyState(HGEK_LEFT)){tetrisBoard->toLeft();};
 	if (hge->Input_GetKeyState(HGEK_DOWN)){tetrisBoard->toDown();};
 	if (hge->Input_GetKeyState(HGEK_RIGHT)){tetrisBoard->toRight();};
-	fpos=0;
- }
+	temp=0;
+}
+
 
 	checkClicks(gui->Update(dt));
 	t+=dt;

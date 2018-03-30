@@ -7,16 +7,17 @@ class TetrisIcon: public hgeGUIObject
 		HTEXTURE _texIcon;
 		const char* _name;
 		float _start_pos_x;
-		float _curr_pos_x;
+
 		float _start_pos_y;
-		float _curr_pos_y;
+		
 		float _txt_w;
 		float _txt_h;
 
 	public:
 		int _x;
 		int _y;
-
+		float _curr_pos_x;
+		float _curr_pos_y;
 		TetrisIcon(void);
 		~TetrisIcon(void);
 

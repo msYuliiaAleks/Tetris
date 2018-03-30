@@ -6,8 +6,15 @@
 const char* TetrisElement::RED = "red.png";
 const char* TetrisElement::BLUE = "blue.png";
 const char* TetrisElement::GREEN = "green.png";
-TetrisElement::TetrisElement(){};
-TetrisElement::TetrisElement(int _id, float x, float y)//, Matrix board)
+TetrisElement::TetrisElement()
+{
+	clear();
+}
+TetrisElement::~TetrisElement()
+{
+
+}
+void TetrisElement::setParameters(int _id, float x, float y)//, Matrix board)
 {
 	id=_id;
 	_start_pos_x=x;
@@ -76,15 +83,82 @@ void TetrisElement::move(int diff_x, int diff_y)
 	}
 
 }
-void TetrisElement::move()
-{
-	std::vector< TetrisIcon* > _temp_icon_list;
+void TetrisElement::rotate()
+{	
+	int H=getHeightEl();
+	int W=getWidthtEl();
+	std::vector<std::vector<int>>  src;
 
-	for (UINT i = 0; i < _icon_list.size(); ++i) 
+	for(int i=0; i<H; ++i)
 	{
-		//_icon_list[i]->recalculatePosition(_y, _x);
+		std::vector<int> rov;
+		for(int j=0; j<	W; ++j)
+		{
+			rov.push_back(0);
+		}
+		src.push_back(rov);
+	}
+	for (UINT k = 0; k < _icon_list.size(); ++k) 
+	{
+		for(int i=0; i<H; ++i)
+		{
+			for(int j=0; j<	W; ++j)
+			{
+				if(i==_icon_list[k]->_y && j == _icon_list[k]->_x)
+				{
+					src[i][j]=1;
+				}
+			}
+		}
+	}
+	std::vector<std::vector<int>>  dst;
+
+	for(int i=0; i<W; ++i)
+	{
+		std::vector<int> rov;
+		for(int j=0; j<	H; ++j)
+		{
+			rov.push_back(0);
+		}
+		dst.push_back(rov);
 	}
 
+	for(int i=0; i<W; i++)
+	{
+		for(int j=0; j<	H; j++)
+		{
+			dst[i][j] = src[j][W-i-1];
+		}
+	}
+
+
+	for (UINT k = 0; k < _icon_list.size();) 
+	{
+		for(int i=0; i<W; ++i)
+		{
+			for(int j=0; j<	H; ++j)
+			{
+
+				if(dst[i][j]==1)
+				{
+					_icon_list[k]->_y=i;
+					_icon_list[k]->_x=j;
+
+					++k;
+				}
+			}
+		}
+	}
+}
+void TetrisElement::clear()
+{
+	_numOfElementFromArr = 0;
+	_numColorElement = 0;
+	_start_pos_x = 0.f;
+	_start_pos_y = 0.f;
+	_x = 0;
+	_y = 0;
+	_icon_list.clear();
 }
 
 

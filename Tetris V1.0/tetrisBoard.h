@@ -24,6 +24,7 @@ public:
 	TetrisBoard();
 
 	bool canMove(int diff_x, int diff_y);
+	bool canMove();
 	void toDown();
 	void toLeft();
 	void toRight();
